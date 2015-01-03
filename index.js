@@ -2,6 +2,7 @@ var http    = require('http');
 var url     = require('url');
 var wordnet = require('wordnet');
 
+
 http.createServer(function(req, res) {
   var route = url.parse(req.url, true);
 
@@ -24,20 +25,24 @@ http.createServer(function(req, res) {
         }));
       }
       else {
-        var results = definitions.map(function(definition) {
-          var words = definition.meta.words.map(function(word) {
-            return word.word;
-          }).join(', ');
-
-          return { glossary: definition.glossary, words: words };
-        });
 
         res.writeHeader(200, {'Content': 'application/json'});
         res.end(JSON.stringify({
           status: 200,
-          definitions: results
+          definitions: parseDefinitions(definitions)
         }));
       }
     });
   }
 }).listen(process.env.PORT || 5000);
+
+
+function parseDefinitions(definitions) {
+  return definitions.map(function(definition) {
+    var words = definition.meta.words.map(function(word) {
+      return word.word;
+    }).join(', ');
+
+    return { glossary: definition.glossary, words: words };
+  });
+}
