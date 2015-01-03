@@ -10,7 +10,7 @@ http.createServer(function(req, res) {
     res.writeHeader(400, {'Content': 'application/json'});
     res.end(JSON.stringify({
       status: 400,
-      message: 'Bad request.'
+      message: 'Bad request. See docs <https://github.com/max/worded>.'
     }));
   }
   else {
