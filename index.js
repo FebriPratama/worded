@@ -24,10 +24,18 @@ http.createServer(function(req, res) {
         }));
       }
       else {
+        var results = definitions.map(function(definition) {
+          var words = definition.meta.words.map(function(word) {
+            return word.word;
+          }).join(', ');
+
+          return { glossary: definition.glossary, words: words };
+        });
+
         res.writeHeader(200, {'Content': 'application/json'});
         res.end(JSON.stringify({
           status: 200,
-          definitions: definitions
+          definitions: results
         }));
       }
     });
